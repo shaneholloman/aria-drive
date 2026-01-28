@@ -9,7 +9,7 @@ commands.html
 .claude/
 
 # Build artifacts (committed to npm, not git)
-hooks/dist/
+dist/
 
 # Animation assets
 animation/

@@ -1,17 +1,16 @@
 {
   "name": "aria-drive",
   "version": "0.1.0",
+  "type": "module",
   "description": "A meta-prompting, context engineering and spec-driven development system for Claude Code",
   "bin": {
-    "aria-drive": "bin/install.js"
+    "aria-drive": "dist/bin/install.js"
   },
   "files": [
-    "bin",
-    "commands",
-    "drive",
-    "agents",
-    "hooks/dist",
-    "scripts"
+    "dist/",
+    "commands/",
+    "drive/",
+    "agents/"
   ],
   "keywords": [
     "claude",
@@ -33,12 +32,17 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "esbuild": "^0.27.2"
-  },
   "scripts": {
-    "build:hooks": "node scripts/build-hooks.js",
-    "prepublishOnly": "npm run build:hooks"
+    "build": "bun build src/bin/install.ts --outdir dist/bin --target node && bun build src/hooks/drive-check-update.ts src/hooks/drive-statusline.ts --outdir dist/hooks --target node && node scripts/add-shebang.js",
+    "lint": "biome check src/",
+    "lint:fix": "biome check --write src/",
+    "format": "biome format --write src/",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.13",
+    "@types/node": "^25.0.10",
+    "typescript": "^5.9.3"
   }
 }

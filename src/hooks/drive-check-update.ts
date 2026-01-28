@@ -1,11 +1,21 @@
 #!/usr/bin/env node
-// Check for Aria Drive updates in background, write result to cache
-// Called by SessionStart hook - runs once per session
 
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
-const { spawn } = require('child_process');
+/**
+ * Check for Aria Drive updates in background, write result to cache.
+ * Called by SessionStart hook - runs once per session.
+ */
+
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+
+interface UpdateCache {
+    update_available: boolean;
+    installed: string;
+    latest: string;
+    checked: number;
+}
 
 const homeDir = os.homedir();
 const cwd = process.cwd();
@@ -18,11 +28,15 @@ const globalVersionFile = path.join(homeDir, '.claude', 'drive', 'VERSION');
 
 // Ensure cache directory exists
 if (!fs.existsSync(cacheDir)) {
-  fs.mkdirSync(cacheDir, { recursive: true });
+    fs.mkdirSync(cacheDir, { recursive: true });
 }
 
 // Run check in background (spawn background process, windowsHide prevents console flash)
-const child = spawn(process.execPath, ['-e', `
+const child = spawn(
+    process.execPath,
+    [
+        '-e',
+        `
   const fs = require('fs');
   const { execSync } = require('child_process');
 
@@ -53,9 +67,15 @@ const child = spawn(process.execPath, ['-e', `
   };
 
   fs.writeFileSync(cacheFile, JSON.stringify(result));
-`], {
-  stdio: 'ignore',
-  windowsHide: true
-});
+`,
+    ],
+    {
+        stdio: 'ignore',
+        windowsHide: true,
+    },
+);
 
 child.unref();
+
+// Export for type checking (unused at runtime)
+export type { UpdateCache };
