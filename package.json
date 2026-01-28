@@ -1,0 +1,44 @@
+{
+  "name": "aria-drive",
+  "version": "0.1.0",
+  "description": "A meta-prompting, context engineering and spec-driven development system for Claude Code",
+  "bin": {
+    "aria-drive": "bin/install.js"
+  },
+  "files": [
+    "bin",
+    "commands",
+    "drive",
+    "agents",
+    "hooks/dist",
+    "scripts"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "meta-prompting",
+    "context-engineering",
+    "spec-driven-development"
+  ],
+  "author": "shaneholloman",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaneholloman/aria-drive.git"
+  },
+  "homepage": "https://github.com/shaneholloman/aria-drive",
+  "bugs": {
+    "url": "https://github.com/shaneholloman/aria-drive/issues"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.27.2"
+  },
+  "scripts": {
+    "build:hooks": "node scripts/build-hooks.js",
+    "prepublishOnly": "npm run build:hooks"
+  }
+}
